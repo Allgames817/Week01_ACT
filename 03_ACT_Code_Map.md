@@ -38,10 +38,10 @@ Constants (`DT`, task configs, camera names): [`constants.py`](../constants.py).
 | `EpisodicDataset` | Sample random `start_ts`; load one observation; take actions from `start_ts:`; **pad to full episode length 400**; build `is_pad` |
 | `get_norm_stats` | Mean/std of all qpos & actions over dataset |
 | `load_data` | `set_seed` already called in `main` with **1** before this → 80/20 split; build train/val loaders |
-| `sample_box_pose` | Uniform cube pose in \(x\in[0,0.2]\), \(y\in[0.4,0.6]\), \(z=0.05\) |
+| `sample_box_pose` | Uniform cube pose in $x\in[0,0.2]$, $y\in[0.4,0.6]$, $z=0.05$ |
 | `set_seed` | `torch` + `numpy` seeds |
 
-**Important:** Dataset always returns actions shaped `[400, 14]`. Truncation to \(k\) happens in `ACTPolicy`, not in the Dataset.
+**Important:** Dataset always returns actions shaped `[400, 14]`. Truncation to $k$ happens in `ACTPolicy`, not in the Dataset.
 
 ### `imitate_episodes.py`
 
@@ -68,7 +68,7 @@ Constants (`DT`, task configs, camera names): [`constants.py`](../constants.py).
 
 - DETR-style encoder/decoder with positional encodings added inside attention.
 - Prepends latent + proprio tokens to visual memory before encoding.
-- Decoder uses `query_embed` of length `num_queries` (= \(k\)).
+- Decoder uses `query_embed` of length `num_queries` (= $k$).
 
 ---
 
@@ -83,7 +83,7 @@ Assume `B=2`, `k=100`, one camera, hidden `d=512`.
 | After `ACTPolicy` truncate | `[B, 100, 14]` |
 | Image batch | `[B, 1, 3, H, W]` |
 | qpos batch | `[B, 14]` |
-| CVAE \(z\) | `[B, 32]` |
+| CVAE $z$ | `[B, 32]` |
 | `a_hat` | `[B, 100, 14]` |
 
 Eval path: `B=1`, unnormalize with `dataset_stats.pkl`, `env.step(target_qpos)`.
@@ -94,9 +94,9 @@ Eval path: `B=1`, unnormalize with `dataset_stats.pkl`, `env.step(target_qpos)`.
 
 | Stage | Seed | Effect |
 |---|---|---|
-| Start of `main` | **1** | Train/val episode index split (fixed across \(k\)) |
+| Start of `main` | **1** | Train/val episode index split (fixed across $k$) |
 | Start of `train_bc` | **0** (`--seed`) | Model init + training RNG |
-| Start of `eval_bc` | **1000** | Same 50 `sample_box_pose()` sequences across \(k\) |
+| Start of `eval_bc` | **1000** | Same 50 `sample_box_pose()` sequences across $k$ |
 
 Ablation fairness depends on this triad remaining unchanged.
 

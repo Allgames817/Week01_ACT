@@ -1,6 +1,6 @@
 # 05 — Failure Analysis (Rollout 33)
 
-Policy: \(k=100\) ACT, `policy_best.ckpt` under `ckpts/transfer_cube/`.  
+Policy: $k=100$ ACT, `policy_best.ckpt` under `ckpts/transfer_cube/`.  
 Figures: [`figures/failure_region_map.png`](figures/failure_region_map.png), [`figures/cube_xy_scatter.png`](figures/cube_xy_scatter.png), [`figures/video33_frame0.png`](figures/video33_frame0.png).
 
 ---
@@ -20,14 +20,14 @@ Initial cube pose (from eval log / `box_poses.txt`):
 
 | | Value |
 |---|---|
-| \(x\) | **0.009017462464891502** |
-| \(y\) | **0.41886193238073793** |
-| \(z\) | 0.05 |
+| $x$ | **0.009017462464891502** |
+| $y$ | **0.41886193238073793** |
+| $z$ | 0.05 |
 | quat | (1, 0, 0, 0) |
 
-Approx. for prose: \(x \approx 0.009\), \(y \approx 0.419\).
+Approx. for prose: $x \approx 0.009$, $y \approx 0.419$.
 
-Sampling box for training/eval randomization: \(x\in[0,0.2]\), \(y\in[0.4,0.6]\). Pose 33 lies **inside** this box, near the **lower-left** corner → not a strict out-of-distribution sample.
+Sampling box for training/eval randomization: $x\in[0,0.2]$, $y\in[0.4,0.6]$. Pose 33 lies **inside** this box, near the **lower-left** corner → not a strict out-of-distribution sample.
 
 ![First frame of rollout 33](figures/video33_frame0.png)
 
@@ -60,7 +60,7 @@ Original: `ckpts/transfer_cube/fixed_pose_eval/result_policy_best_fixed_pose.txt
 
 Script: `ckpts/transfer_cube/failure_analysis/make_region_grid.py`
 
-- Regular grid: \(x \in \{0.005, 0.019, \ldots, 0.089\}\) (7 values), \(y \in \{0.405, 0.419, \ldots, 0.489\}\) (7 values) → **49** poses.
+- Regular grid: $x \in \{0.005, 0.019, \ldots, 0.089\}$ (7 values), $y \in \{0.405, 0.419, \ldots, 0.489\}$ (7 values) → **49** poses.
 - Extra row: exact failed pose (rollout 33) → CSV has **50** evaluation rows.
 
 Files:
@@ -75,7 +75,7 @@ Files:
 | Category (49-grid) | Count | Definition |
 |---|---|---|
 | Full success | **34** | `highest_reward == 4` |
-| Partial | **6** | \(0 < \mathrm{highest\_reward} < 4\) |
+| Partial | **6** | $0 < \mathrm{highest\_reward} < 4$ |
 | Reward 0 | **9** | `highest_reward == 0` |
 
 Exact #33 replay (50th CSV row): also **reward 0**. If one naively counts all 50 CSV rows, reward-0 becomes **10** — do not mix these denominators.
@@ -113,7 +113,7 @@ Note: `failure_analysis/box_poses.txt` success flags match the **TA** 49/50 outc
 
 | Gap | Status |
 |---|---|
-| Dense sweep over full \(0.2\times0.2\) box | **not tested this week** (only local 7×7) |
+| Dense sweep over full $0.2\times0.2$ box | **not tested this week** (only local 7×7) |
 | Multiple seeds / checkpoints for region map | **not tested** (single `policy_best`) |
 | Causal analysis (vision occlusion vs kinematics) | **not tested** |
 | Whether more data near the corner would fix it | **not tested** |

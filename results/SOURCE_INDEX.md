@@ -5,7 +5,7 @@ All paths below are under repo root `d:/act` unless noted.
 
 ---
 
-## 1. Main Transfer Cube (\(k=100\))
+## 1. Main Transfer Cube ($k=100$)
 
 | Claim | Exact value | Source file |
 |---|---|---|
@@ -25,7 +25,7 @@ Copies: `Week01_ACT/results/eval_k100_no_agg.txt`, `eval_k100_temporal_agg.txt`.
 
 ## 2. Chunk ablation
 
-| \(k\) | Mode | Success | Return | Source |
+| $k$ | Mode | Success | Return | Source |
 |---|---|---|---|---|
 | 1 | no TA | 0.0 (0/50) | 0.0 | `ckpts/chunk_ablation/k1/eval_no_agg/result_policy_best.txt` |
 | 1 | TA | 0.0 (0/50) | 0.0 | `.../k1/eval_temporal_agg/result_policy_best.txt` |
@@ -38,7 +38,7 @@ Copies: `Week01_ACT/results/eval_k100_no_agg.txt`, `eval_k100_temporal_agg.txt`.
 Staged reward counts: same files’ `Reward >=` lines; also tabulated in `chunk_ablation_report.md` §4.2.
 
 Training meta (best epoch / val loss): `chunk_ablation_report.md` §3.  
-\(k=20\) best val loss: **not recorded**.
+$k=20$ best val loss: **not recorded**.
 
 Copies: `Week01_ACT/results/eval_k{1,20,50}_{no_agg,temporal_agg}.txt`, `chunk_ablation_report.md`.
 
@@ -72,7 +72,7 @@ Figures copied to `Week01_ACT/figures/`: `failure_region_map.png`, `cube_xy_scat
 | action dim | 14 | `imitate_episodes.py` `state_dim` |
 | latent_dim | 32 | `detr_vae.py` |
 | enc/dec/nheads | 4 / 7 / 8 | `imitate_episodes.py` |
-| TA exp weight \(k\) | 0.01 | `imitate_episodes.py` eval loop |
+| TA exp weight $k$ | 0.01 | `imitate_episodes.py` eval loop |
 
 ---
 

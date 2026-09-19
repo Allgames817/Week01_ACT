@@ -1,4 +1,4 @@
-# 04 — Reproduction (Transfer Cube, \(k=100\))
+# 04 — Reproduction (Transfer Cube, $k=100$)
 
 Primary checkpoint directory: `ckpts/transfer_cube/`.  
 Raw logs copied to [`results/eval_k100_no_agg.txt`](results/eval_k100_no_agg.txt) and [`results/eval_k100_temporal_agg.txt`](results/eval_k100_temporal_agg.txt).
@@ -19,9 +19,9 @@ Raw logs copied to [`results/eval_k100_no_agg.txt`](results/eval_k100_no_agg.txt
 
 Cube init sampling (`utils.sample_box_pose`):
 
-\[
+$$
 x \sim U[0, 0.2],\quad y \sim U[0.4, 0.6],\quad z = 0.05
-\]
+$$
 
 ---
 
@@ -43,7 +43,7 @@ Normalization stats saved as `ckpts/transfer_cube/dataset_stats.pkl`.
 | Hyperparameter | Value | Notes |
 |---|---|---|
 | Policy | ACT | |
-| `chunk_size` / \(k\) | **100** | `num_queries=100` |
+| `chunk_size` / $k$ | **100** | `num_queries=100` |
 | `batch_size` | **2** | Official tip uses 8; this machine used 2 for 8GB VRAM |
 | `hidden_dim` | 512 | |
 | `dim_feedforward` | 3200 | |
@@ -88,7 +88,7 @@ Videos and logs written under:
 
 ---
 
-## 5. Main results (\(k=100\))
+## 5. Main results ($k=100$)
 
 ### No temporal aggregation
 
@@ -121,7 +121,7 @@ Source: `ckpts/transfer_cube/eval_temporal_agg/result_policy_best.txt`
 
 | Mode | Prediction horizon | Replanning |
 |---|---|---|
-| No TA | \(100 \times 0.02 = 2\,\mathrm{s}\) | every 2 s (open-loop chunk) |
+| No TA | $100 \times 0.02 = 2\,\mathrm{s}$ | every 2 s (open-loop chunk) |
 | TA | 2 s | every **0.02 s**, with exponential ensemble |
 
 ---
@@ -130,7 +130,7 @@ Source: `ckpts/transfer_cube/eval_temporal_agg/result_policy_best.txt`
 
 | File | Role |
 |---|---|
-| `ckpts/transfer_cube/policy_best.ckpt` | used for all \(k=100\) evals |
+| `ckpts/transfer_cube/policy_best.ckpt` | used for all $k=100$ evals |
 | `ckpts/transfer_cube/policy_last.ckpt` | last epoch |
 | `ckpts/transfer_cube/policy_epoch_*_seed_0.ckpt` | periodic / best-epoch dumps |
 

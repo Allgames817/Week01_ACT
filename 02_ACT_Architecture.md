@@ -42,15 +42,15 @@ Inference (no actions)
 | Parameter | Value | Where set |
 |---|---|---|
 | `state_dim` / action dim | 14 | `imitate_episodes.py`, `detr_vae.py` |
-| `hidden_dim` (\(d\)) | 512 | CLI `--hidden_dim` |
+| `hidden_dim` ($d$) | 512 | CLI `--hidden_dim` |
 | `dim_feedforward` | 3200 | CLI |
 | `enc_layers` (policy + CVAE encoder) | 4 | hardcoded in `imitate_episodes.py` |
 | `dec_layers` | **7** | hardcoded (not DETR default 6) |
 | `nheads` | 8 | hardcoded |
 | `backbone` | `resnet18` | hardcoded |
 | `latent_dim` | **32** | `DETRVAE.__init__` |
-| `num_queries` | \(k\) = `chunk_size` | CLI `--chunk_size` |
-| `kl_weight` \(\lambda\) | 10 | CLI |
+| `num_queries` | $k$ = `chunk_size` | CLI `--chunk_size` |
+| `kl_weight` $\lambda$ | 10 | CLI |
 | cameras | `['top']` | `constants.py` |
 
 ---
@@ -72,7 +72,7 @@ From `DETRVAE.forward` when `actions is not None`:
 | `reparametrize` → `latent_sample` | `[B, 32]` |
 | `latent_out_proj` | `[B, d]` |
 
-Padding mask: CLS and qpos tokens are never pad; action pads come from the dataset `is_pad` truncated to length \(k\).
+Padding mask: CLS and qpos tokens are never pad; action pads come from the dataset `is_pad` truncated to length $k$.
 
 ---
 
@@ -84,7 +84,7 @@ latent_input = self.latent_out_proj(latent_sample)
 mu = logvar = None
 ```
 
-No sampling from \(\mathcal{N}(0,I)\) at test time in this implementation — **deterministic zero latent**.
+No sampling from $\mathcal{N}(0,I)$ at test time in this implementation — **deterministic zero latent**.
 
 ---
 
@@ -98,11 +98,11 @@ No sampling from \(\mathcal{N}(0,I)\) at test time in this implementation — **
 
 In `Transformer.forward` (4-D image features):
 
-1. Flatten spatial map to sequence length \(HW\).
+1. Flatten spatial map to sequence length $HW$.
 2. Prepend **two** tokens: `[latent_input, proprio_input]` with learned `additional_pos_embed` (size 2).
 3. Encoder over `[2 + HW]` tokens.
 4. Decoder: `tgt = zeros_like(query_embed)`, `query_embed` shape `[k, B, d]`.
-5. Output `hs` → `action_head`: Linear \(d \to 14\) → **`a_hat [B, k, 14]`**.
+5. Output `hs` → `action_head`: Linear $d \to 14$ → **`a_hat [B, k, 14]`**.
 6. Also `is_pad_head` → `[B, k, 1]` (pad prediction; used less critically than L1 mask).
 
 ---
@@ -125,9 +125,9 @@ Inference `__call__` without `actions` returns `a_hat` only (no loss).
 | | Training | Inference |
 |---|---|---|
 | Actions to CVAE encoder | yes | no |
-| \(z\) | sampled from \(\mu,\log\mathrm{var}\) | **zeros** |
+| $z$ | sampled from $\mu,\log\mathrm{var}$ | **zeros** |
 | Output | `a_hat`, `μ`, `logvar` + L1/KL | `a_hat` only |
-| `num_queries` | \(k\) | \(k\) |
+| `num_queries` | $k$ | $k$ |
 
 ---
 
@@ -135,7 +135,7 @@ Inference `__call__` without `actions` returns `a_hat` only (no loss).
 
 Handled in `eval_bc` (`imitate_episodes.py`), not inside `DETRVAE`:
 
-- Without TA: query every \(k\) steps; take `all_actions[:, t % k]`.
-- With TA: query every step; store predictions in `all_time_actions`; exponential weights `exp(-0.01 * age)` over all predictions covering time \(t\).
+- Without TA: query every $k$ steps; take `all_actions[:, t % k]`.
+- With TA: query every step; store predictions in `all_time_actions`; exponential weights `exp(-0.01 * age)` over all predictions covering time $t$.
 
-Architecture always predicts length-\(k\) chunks; TA only changes **how** those chunks are consumed.
+Architecture always predicts length-$k$ chunks; TA only changes **how** those chunks are consumed.
